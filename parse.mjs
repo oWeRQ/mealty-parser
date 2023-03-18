@@ -3,7 +3,7 @@ import { load } from 'cheerio';
 export function parseBody(body, baseUrl = '') {
     const $ = load(body);
 
-    const categories = $('.category-wrapper').map((i, el) => {
+    const categories = $('.category-wrapper').map((_, el) => {
         const $el = $(el);
         const category = {
             id: $el.attr('data-category'),
@@ -11,10 +11,20 @@ export function parseBody(body, baseUrl = '') {
             title: $el.find('.menu-category-title').text(),
         }; 
         
-        const products = $el.find('.catalog-item').map((i, el) => {
+        const products = $el.find('.catalog-item').map((_, el) => {
             const $el = $(el);
+
+            const meta = Object.fromEntries($el.find('.hidden > *').map((_, el) => {
+                const $el = $(el);
+                const key = $el.attr('class').replace(/^.*?__/, '');
+                const value = $el.text() || baseUrl + $el.find('img[data-fancybox-src]').attr('data-fancybox-src');
+
+                return [[key, value]];
+            }).get());
+
             return {
                 category,
+                meta,
                 id: $el.attr('data-product_id'),
                 sellerId: $el.attr('data-seller-product_id'),
                 priority: $el.attr('data-priority'),
