@@ -1,0 +1,15 @@
+{
+  "name": "mealty-parser",
+  "version": "1.0.0",
+  "main": "index.jsm",
+  "author": "oWeRQ <fomaxi@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "express": "^4.18.2",
+    "needle": "^3.2.0"
+  },
+  "scripts": {
+    "start": "node index.mjs"
+  }
+}
