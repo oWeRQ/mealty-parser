@@ -2,12 +2,17 @@ import express from 'express';
 import { parseBody } from './parse.mjs';
 import { fetchBody } from './fetch.mjs';
 
+const CACHE_TIME = 12 * 3600 * 1000;
+const URL = 'https://www.mealty.ru';
+
 let cachedData = null;
+let cacheAt = new Date();
 
 async function getCachedData() {
-    if (!cachedData) {
-        const body = await fetchBody();
-        cachedData = parseBody(body);
+    if (!cachedData || new Date() - cacheAt > CACHE_TIME) {
+        const body = await fetchBody(URL);
+        cachedData = parseBody(body, URL);
+        cacheAt = new Date();
     }
 
     return cachedData;    

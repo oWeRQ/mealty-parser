@@ -1,6 +1,6 @@
 import { load } from 'cheerio';
 
-export function parseBody(body) {
+export function parseBody(body, baseUrl = '') {
     const $ = load(body);
 
     const categories = $('.category-wrapper').map((i, el) => {
@@ -20,7 +20,7 @@ export function parseBody(body) {
                 priority: $el.attr('data-priority'),
                 heatable: $el.hasClass('product_heatable'),
                 newProduct: $el.find('.newpl').length !== 0,
-                image: $el.find('.meal-card__image img[data-fancybox-href]').attr('src'),
+                imageUrl: baseUrl + $el.find('.meal-card__image img[data-fancybox-href]').attr('data-src'),
                 name: $el.find('.meal-card__name').text(),
                 note: $el.find('.meal-card__name-note').text(),
                 price: $el.find('.basket__footer-total-count').text(),

@@ -1,12 +1,11 @@
 import fs from 'fs';
 import needle from 'needle';
 
-export const URL = 'https://www.mealty.ru';
 export const CACHE_FILE = 'cache/index.html';
 
-export function fetchBody() {
+export function fetchBody(url) {
     return new Promise((resolve) => {
-        needle.get(URL, (err, res) => {
+        needle.get(url, (_, res) => {
             resolve(res.body);
         });
     });
