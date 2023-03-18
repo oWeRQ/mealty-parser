@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { parseBody } from './parse.mjs';
 import { fetchBody } from './fetch.mjs';
 
@@ -19,6 +20,8 @@ async function getCachedData() {
 }
 
 const app = express();
+
+app.use(cors());
 
 app.get('/api/v1/categories', async (_, res) => {
     const data = await getCachedData();
